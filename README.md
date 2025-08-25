@@ -1,6 +1,6 @@
 # Email Validator - RFC Compliance Documentation
 
-A lightweight email address validator that implements RFC 5322 compliance without dependencies on System.Net.Mail.
+A lightweight email address validator that implements full support for RFC5322 and partial support for RFC6531 & RFC2822 without dependencies on System.Net.Mail.
 
 ## Overview
 
@@ -53,29 +53,6 @@ This EmailValidator class provides comprehensive email validation covering the m
 2. **Group syntax** - `Group: user1@domain1, user2@domain2;` format not supported
 3. **Complete obsolete format support** - Various legacy formats from RFC 2822
 
-## Validation Features
-
-### Comprehensive Test Coverage
-The validator includes extensive test cases covering:
-
-- **Normal Variations**: Basic formats, various TLDs, subdomains, local part variations
-- **Special Characters**: All RFC-allowed special characters in local parts
-- **International Support**: Unicode characters, international domains
-- **Edge Cases**: Length limits, IP literals, quoted strings
-- **Invalid Cases**: Comprehensive invalid email detection (200+ test cases)
-
-### Performance Optimizations
-- No regex dependency for core validation (faster and more reliable)
-- Efficient string parsing without heavy regex operations
-- Minimal memory allocation during validation
-- Fast character-by-character validation
-
-### Security Considerations
-- Input length validation to prevent DoS attacks
-- Domain label count limits to prevent abuse
-- Proper escape sequence handling in quoted strings
-- Whitespace validation to prevent injection attempts
-
 ## API Usage
 
 ### Basic Validation
@@ -117,59 +94,3 @@ if (parsed != null)
             SaveToDatabase(email.LocalPart, email.Domain);
     }
     ```
-
-## RFC Compliance Level
-
-**Current Compliance: ~80-85%**
-
-This validator provides **good practical email validation** suitable for most production applications. It handles:
-- All common email formats
-- International characters and domains
-- Comprehensive invalid email detection
-- Security considerations
-
-## Recommendations for Full RFC Compliance
-
-To achieve 100% RFC compliance, the following enhancements would be needed:
-
-### 1. Unicode Normalization
-```csharp
-private static string NormalizeUnicode(string input)
-{
-    return input.Normalize(NormalizationForm.FormC);
-}
-```
-
-### 2. IDN (International Domain Name) Handling
-```csharp
-private static bool ValidateInternationalDomain(string domain)
-{
-    try
-    {
-        var idn = new IdnMapping();
-        idn.GetAscii(domain);
-        return true;
-    }
-    catch { return false; }
-}
-```
-
-### 3. Complete IPv6 Validation
-```csharp
-private static bool IsValidIPv6(string ipv6)
-{
-    return IPAddress.TryParse(ipv6, out IPAddress addr) && 
-           addr.AddressFamily == AddressFamily.InterNetworkV6;
-}
-```
-
-### 4. Advanced CFWS Parsing
-- Implement proper nested comment parsing
-- Handle escaped characters within comments
-- Support folding whitespace across lines
-
-### 5. Legacy Format Support
-- Route addressing support
-- Group syntax support
-- Obsolete format backward compatibility
-
