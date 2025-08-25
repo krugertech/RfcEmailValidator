@@ -4,6 +4,30 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RepositoryUrl>https://github.com/krugertech/RfcEmailValidator</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>RFC2822 RFC5322 RFC6531 .net emailaddress validator</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/krugertech/RfcEmailValidator</PackageProjectUrl>
+    <Copyright>Copyright 2025</Copyright>
+    <Description>A lightweight email validator with full RFC5322 support and partial RFC6531/RFC2822 support, implemented without System.Net.Mail dependencies.</Description>
+    <Title>.NET RFC5322 Compliant Email Validator</Title>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageId>Krugertech.Net.RfcEmailValidator</PackageId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
