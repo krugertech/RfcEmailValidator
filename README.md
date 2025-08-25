@@ -2,9 +2,57 @@
 
 A lightweight email address validator that implements full support for RFC5322 and partial support for RFC6531 & RFC2822 without dependencies on System.Net.Mail.
 
-## Overview
+## NuGet Installation
 
-This EmailValidator class provides comprehensive email validation covering the most common use cases while maintaining good performance and avoiding the bulk of System.Net.Mail dependencies.
+Install the latest version via NuGet:
+
+```sh
+dotnet add package Krugertech.Net.RfcEmailValidator
+```
+
+Or visit [NuGet.org](https://www.nuget.org/packages/Krugertech.Net.RfcEmailValidator/) for more details.
+
+## Usage
+
+### Basic Validation
+```csharp
+using KrugerTech.Net;
+
+bool isValid = EmailValidator.IsRfcCompliant("user@example.com");
+```
+
+### Email Parsing
+```csharp
+using KrugerTech.Net;
+
+EmailAddress? parsed = EmailValidator.ParseEmail("\"John Doe\" <john.doe@example.com>");
+if (parsed != null)
+{
+    Console.WriteLine($"Display Name: {parsed.DisplayName}");
+    Console.WriteLine($"Local Part: {parsed.LocalPart}");
+    Console.WriteLine($"Domain: {parsed.Domain}");
+    Console.WriteLine($"Full Address: {parsed.Address}");
+}
+```
+
+### Typical Usage Scenarios
+
+- **Validate user input:**
+    ```csharp
+    if (EmailValidator.IsRfcCompliant(userInput)) {
+            // Accept email
+    } else {
+            // Show validation error
+    }
+    ```
+
+- **Extract components for storage or display:**
+    ```csharp
+    var email = EmailValidator.ParseEmail(input);
+    if (email != null) {
+            SaveToDatabase(email.LocalPart, email.Domain);
+    }
+    ```
 
 ## Current RFC Coverage
 
@@ -52,45 +100,3 @@ This EmailValidator class provides comprehensive email validation covering the m
 1. **Route addressing** - Obsolete `<@route:user@domain>` format not supported
 2. **Group syntax** - `Group: user1@domain1, user2@domain2;` format not supported
 3. **Complete obsolete format support** - Various legacy formats from RFC 2822
-
-## API Usage
-
-### Basic Validation
-```csharp
-using KrugerTech.Net;
-
-bool isValid = EmailValidator.IsRfcCompliant("user@example.com");
-```
-
-### Email Parsing
-```csharp
-using KrugerTech.Net;
-
-EmailAddress? parsed = EmailValidator.ParseEmail("\"John Doe\" <john.doe@example.com>");
-if (parsed != null)
-{
-    Console.WriteLine($"Display Name: {parsed.DisplayName}");
-    Console.WriteLine($"Local Part: {parsed.LocalPart}");
-    Console.WriteLine($"Domain: {parsed.Domain}");
-    Console.WriteLine($"Full Address: {parsed.Address}");
-}
-```
-
-### Typical Usage Scenarios
-
-- **Validate user input:**
-    ```csharp
-    if (EmailValidator.IsRfcCompliant(userInput)) {
-            // Accept email
-    } else {
-            // Show validation error
-    }
-    ```
-
-- **Extract components for storage or display:**
-    ```csharp
-    var email = EmailValidator.ParseEmail(input);
-    if (email != null) {
-            SaveToDatabase(email.LocalPart, email.Domain);
-    }
-    ```
