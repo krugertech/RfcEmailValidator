@@ -4,13 +4,9 @@ A lightweight email address validator that implements full support for RFC5322 a
 
 ## NuGet Installation
 
-Install the latest version via NuGet:
-
 ```sh
 dotnet add package Krugertech.Net.RfcEmailValidator
 ```
-
-Or visit [NuGet.org](https://www.nuget.org/packages/Krugertech.Net.RfcEmailValidator/) for more details.
 
 ## Usage
 
