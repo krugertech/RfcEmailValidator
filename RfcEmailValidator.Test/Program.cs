@@ -1,6 +1,4 @@
 ﻿using KrugerTech.Net;
-using System;
-using System.Linq;
 
 int totalTests = 0;
 int passedTests = 0;

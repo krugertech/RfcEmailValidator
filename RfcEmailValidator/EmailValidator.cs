@@ -1,22 +1,22 @@
-using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Globalization;
 
 namespace KrugerTech.Net
 {
     /// <summary>
-    /// A lightweight email address validator that implements RFC 5322 compliance
-    /// without dependencies on System.Net.Mail
+    /// A lightweight email address validator covering the most common email formats.
+    /// Implements RFC 5322 compliance, with partial support for RFC 2822 (legacy) and RFC 6531 (internationalized email addresses).
+    /// No dependencies on System.Net.Mail.
     /// </summary>
     public static class EmailValidator
     {
 
-        /// <summary>
-        /// Validates an email address for RFC 5322 compliance
-        /// </summary>
-        /// <param name="emailAddress">The email address to validate</param>
-        /// <returns>True if the email address is valid, false otherwise</returns>
+    /// <summary>
+    /// Validates an email address for RFC 5322 compliance, with partial support for RFC 2822 and RFC 6531.
+    /// Covers the most common email address formats used in practice.
+    /// </summary>
+    /// <param name="emailAddress">The email address to validate</param>
+    /// <returns>True if the email address is valid, false otherwise</returns>
         public static bool IsRfcCompliant(string emailAddress)
         {
             if (string.IsNullOrWhiteSpace(emailAddress))
@@ -77,11 +77,12 @@ namespace KrugerTech.Net
             }
         }
 
-        /// <summary>
-        /// Parses an email address into its components
-        /// </summary>
-        /// <param name="emailAddress">The email address to parse</param>
-        /// <returns>EmailAddress object with parsed components, or null if invalid</returns>
+    /// <summary>
+    /// Parses an email address into its components.
+    /// Supports the most common formats, including display names and internationalized addresses (RFC 6531).
+    /// </summary>
+    /// <param name="emailAddress">The email address to parse</param>
+    /// <returns>EmailAddress object with parsed components, or null if invalid</returns>
         public static EmailAddress? ParseEmail(string emailAddress)
         {
             if (!IsRfcCompliant(emailAddress))
@@ -431,7 +432,8 @@ namespace KrugerTech.Net
     }
 
     /// <summary>
-    /// Represents a parsed email address with its components
+    /// Represents a parsed email address with its components.
+    /// Supports display names and internationalized addresses (RFC 6531).
     /// </summary>
     public class EmailAddress
     {
