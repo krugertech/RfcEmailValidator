@@ -22,6 +22,10 @@ namespace QuickDevTest
             if (string.IsNullOrWhiteSpace(emailAddress))
                 return false;
 
+            // Check for leading/trailing whitespace (should be invalid)
+            if (emailAddress != emailAddress.Trim())
+                return false;
+
             try
             {
                 // Remove any comments first (text between parentheses)
@@ -186,6 +190,10 @@ namespace QuickDevTest
 
             string content = quotedString.Substring(1, quotedString.Length - 2);
             
+            // Empty quoted string is invalid - must have at least one character
+            if (content.Length == 0)
+                return false;
+            
             for (int i = 0; i < content.Length; i++)
             {
                 char c = content[i];
@@ -230,6 +238,14 @@ namespace QuickDevTest
 
             string[] labels = domainPart.Split('.');
             if (labels.Length < 2) // Must have at least domain.tld (except for IP literals)
+                return false;
+            
+            if (labels.Length > 127) // Reasonable limit on number of labels to prevent abuse
+                return false;
+
+            // Validate TLD (last label) - must be at least 2 characters
+            string tld = labels[labels.Length - 1];
+            if (tld.Length < 2)
                 return false;
 
             foreach (string label in labels)

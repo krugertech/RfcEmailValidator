@@ -317,6 +317,24 @@ TestEmail("user\x7f@example.com");              // DEL character
 TestEmail("user@\x00example.com");              // Null in domain
 TestEmail("user@example\x7f.com");              // DEL in domain
 
+// Whitespace edge cases
+Console.WriteLine("\n  Whitespace Edge Cases:");
+TestEmail(" user@example.com");                 // Leading space
+TestEmail("user@example.com ");                 // Trailing space
+TestEmail(" user@example.com ");                // Leading and trailing space
+TestEmail("\tuser@example.com");                // Leading tab
+TestEmail("user@example.com\t");                // Trailing tab
+
+// TLD length issues
+Console.WriteLine("\n  TLD Length Issues:");
+TestEmail("user@domain.c");                     // Single character TLD
+TestEmail("user@domain.");                      // Empty TLD
+TestEmail("user@domain.a");                     // Single letter TLD
+
+// Excessive subdomain labels
+Console.WriteLine("\n  Excessive Domain Labels:");
+TestEmail("user@" + string.Join(".", Enumerable.Repeat("a", 130)) + ".com"); // Too many labels
+
 Console.WriteLine("\nPress any key to exit...");
 Console.ReadKey();
 
