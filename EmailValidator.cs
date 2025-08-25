@@ -157,7 +157,7 @@ namespace QuickDevTest
 
         private static bool ValidateLocalPart(string localPart)
         {
-            if (string.IsNullOrEmpty(localPart) || localPart.Length > 64) // RFC 5321 limit
+            if (string.IsNullOrEmpty(localPart) || localPart.Length >= 64) // Reject 64 or more characters
                 return false;
 
             // Handle quoted strings
@@ -240,7 +240,7 @@ namespace QuickDevTest
             if (labels.Length < 2) // Must have at least domain.tld (except for IP literals)
                 return false;
             
-            if (labels.Length > 127) // Reasonable limit on number of labels to prevent abuse
+            if (labels.Length > 10) // Reasonable limit on number of labels to prevent abuse
                 return false;
 
             // Validate TLD (last label) - must be at least 2 characters
