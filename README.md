@@ -1,4 +1,4 @@
-# Email Validator - RFC Compliance Documentation
+# RFC Compliant Email Address Validator
 
 A lightweight email address validator that implements full support for RFC5322 and partial support for RFC6531 & RFC2822 without dependencies on System.Net.Mail.
 
