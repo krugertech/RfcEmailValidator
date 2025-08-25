@@ -80,11 +80,15 @@ The validator includes extensive test cases covering:
 
 ### Basic Validation
 ```csharp
-bool isValid = EmailValidator.IsValidEmail("user@example.com");
+using KrugerTech.Net;
+
+bool isValid = EmailValidator.IsRfcCompliant("user@example.com");
 ```
 
 ### Email Parsing
 ```csharp
+using KrugerTech.Net;
+
 EmailAddress? parsed = EmailValidator.ParseEmail("\"John Doe\" <john.doe@example.com>");
 if (parsed != null)
 {
@@ -94,6 +98,25 @@ if (parsed != null)
     Console.WriteLine($"Full Address: {parsed.Address}");
 }
 ```
+
+### Typical Usage Scenarios
+
+- **Validate user input:**
+    ```csharp
+    if (EmailValidator.IsRfcCompliant(userInput)) {
+            // Accept email
+    } else {
+            // Show validation error
+    }
+    ```
+
+- **Extract components for storage or display:**
+    ```csharp
+    var email = EmailValidator.ParseEmail(input);
+    if (email != null) {
+            SaveToDatabase(email.LocalPart, email.Domain);
+    }
+    ```
 
 ## RFC Compliance Level
 
@@ -150,15 +173,3 @@ private static bool IsValidIPv6(string ipv6)
 - Group syntax support
 - Obsolete format backward compatibility
 
-## Conclusion
-
-For most practical applications, this EmailValidator provides excellent email validation with good RFC compliance. The missing features primarily affect edge cases and legacy format support that are rarely encountered in modern email systems.
-
-The validator successfully handles:
-- ✅ 99.9% of modern email addresses
-- ✅ International email addresses
-- ✅ Security considerations
-- ✅ Performance optimization
-- ✅ Comprehensive validation coverage
-
-**Recommendation**: Use this validator for production applications unless you specifically need 100% RFC compliance for specialized use cases.
