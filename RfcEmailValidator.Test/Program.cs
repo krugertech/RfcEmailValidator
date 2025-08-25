@@ -25,6 +25,9 @@ TestEmail("user(comment)name(anothercomment)@example.com"); // Valid (comments s
 Console.WriteLine("\n--- International Characters (EAI) ---");
 TestEmail("éléonore@example.com");              // Valid (diacritic)
 TestEmail("user@münchen.de");                   // Valid (international domain)
+TestEmail("δοκιμή@παράδειγμα.δοκιμή");          // Valid (Greek characters) - MailAddress support varies
+TestEmail("我買@屋企.香港");                     // Valid (Chinese characters) - MailAddress support varies
+
 
 // Test Cases for Addresses with IP Literals
 Console.WriteLine("\n--- IP Literals in Domain ---");
