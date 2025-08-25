@@ -1,6 +1,6 @@
-﻿using System;
+﻿using KrugerTech.Net;
+using System;
 using System.Linq;
-using QuickDevTest;
 
 int totalTests = 0;
 int passedTests = 0;
@@ -317,7 +317,7 @@ TestEmail("\"user\n\"@domain .com", false);            // Newline in quotes and 
 // Unicode and encoding edge cases
 Console.WriteLine("\n  Unicode/Encoding Edge Cases:");
 TestEmail("user\x00@example.com", false);              // Null character
-TestEmail("user\x7f@example.com", false);              // DEL character  
+TestEmail("user\x7f@example.com", false);              // DEL character
 TestEmail("user@\x00example.com", false);              // Null in domain
 TestEmail("user@example\x7f.com", false);              // DEL in domain
 
@@ -360,9 +360,9 @@ else
 void TestEmail(string email, bool expectedValid = true)
 {
     totalTests++;
-    bool isValid = EmailValidator.IsValidEmail(email);
+    bool isValid = EmailValidator.IsRfcCompliant(email);
     bool testPassed = (isValid == expectedValid);
-    
+
     if (testPassed)
     {
         passedTests++;
@@ -380,10 +380,10 @@ void TestEmail(string email, bool expectedValid = true)
 void TestEmailWithParsing(string email, bool expectedValid = true)
 {
     totalTests++;
-    bool isValid = EmailValidator.IsValidEmail(email);
+    bool isValid = EmailValidator.IsRfcCompliant(email);
     bool testPassed = (isValid == expectedValid);
     var parsed = EmailValidator.ParseEmail(email);
-    
+
     if (testPassed)
     {
         passedTests++;
@@ -396,7 +396,7 @@ void TestEmailWithParsing(string email, bool expectedValid = true)
         Console.WriteLine($"'{email,-40}' is {(isValid ? "VALID" : "INVALID")} ❌ EXPECTED {(expectedValid ? "VALID" : "INVALID")}");
         Console.ResetColor();
     }
-    
+
     if (parsed != null && isValid)
     {
         Console.WriteLine($"  Display Name: '{parsed.DisplayName}'");

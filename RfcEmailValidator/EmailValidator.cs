@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-namespace QuickDevTest
+namespace KrugerTech.Net
 {
     /// <summary>
     /// A lightweight email address validator that implements RFC 5322 compliance
@@ -17,7 +17,7 @@ namespace QuickDevTest
         /// </summary>
         /// <param name="emailAddress">The email address to validate</param>
         /// <returns>True if the email address is valid, false otherwise</returns>
-        public static bool IsValidEmail(string emailAddress)
+        public static bool IsRfcCompliant(string emailAddress)
         {
             if (string.IsNullOrWhiteSpace(emailAddress))
                 return false;
@@ -30,7 +30,7 @@ namespace QuickDevTest
             {
                 // Remove any comments first (text between parentheses)
                 string cleanedEmail = RemoveComments(emailAddress.Trim());
-                
+
                 // Basic length check
                 if (cleanedEmail.Length > 320) // RFC 5321 limit
                     return false;
@@ -41,11 +41,11 @@ namespace QuickDevTest
                 {
                     int angleStart = cleanedEmail.LastIndexOf('<');
                     int angleEnd = cleanedEmail.LastIndexOf('>');
-                    
+
                     if (angleStart >= 0 && angleEnd > angleStart)
                     {
                         actualEmail = cleanedEmail.Substring(angleStart + 1, angleEnd - angleStart - 1).Trim();
-                        
+
                         // Validate the display name part if present
                         if (angleStart > 0)
                         {
@@ -84,7 +84,7 @@ namespace QuickDevTest
         /// <returns>EmailAddress object with parsed components, or null if invalid</returns>
         public static EmailAddress? ParseEmail(string emailAddress)
         {
-            if (!IsValidEmail(emailAddress))
+            if (!IsRfcCompliant(emailAddress))
                 return null;
 
             try
@@ -98,12 +98,12 @@ namespace QuickDevTest
                 {
                     int angleStart = originalEmail.IndexOf('<');
                     int angleEnd = originalEmail.LastIndexOf('>');
-                    
+
                     if (angleStart > 0 && angleEnd > angleStart)
                     {
                         displayName = originalEmail.Substring(0, angleStart).Trim();
                         actualEmail = originalEmail.Substring(angleStart + 1, angleEnd - angleStart - 1);
-                        
+
                         // Remove quotes from display name
                         if (displayName.StartsWith('"') && displayName.EndsWith('"'))
                         {
@@ -133,7 +133,7 @@ namespace QuickDevTest
                 return true;
 
             displayName = displayName.Trim();
-            
+
             // Handle quoted display names
             if (displayName.StartsWith('"') && displayName.EndsWith('"'))
             {
@@ -189,15 +189,15 @@ namespace QuickDevTest
                 return false;
 
             string content = quotedString.Substring(1, quotedString.Length - 2);
-            
+
             // Empty quoted string is invalid - must have at least one character
             if (content.Length == 0)
                 return false;
-            
+
             for (int i = 0; i < content.Length; i++)
             {
                 char c = content[i];
-                
+
                 // Handle escaped characters
                 if (c == '\\')
                 {
@@ -239,7 +239,7 @@ namespace QuickDevTest
             string[] labels = domainPart.Split('.');
             if (labels.Length < 2) // Must have at least domain.tld (except for IP literals)
                 return false;
-            
+
             if (labels.Length > 10) // Reasonable limit on number of labels to prevent abuse
                 return false;
 
@@ -278,14 +278,14 @@ namespace QuickDevTest
         private static bool ValidateIpLiteral(string ipLiteral)
         {
             string content = ipLiteral.Substring(1, ipLiteral.Length - 2);
-            
+
             // IPv6 format
             if (content.StartsWith("IPv6:", StringComparison.OrdinalIgnoreCase))
             {
                 string ipv6Address = content.Substring(5);
                 return IsValidIPv6(ipv6Address);
             }
-            
+
             // IPv4 format
             return IsValidIPv4(content);
         }
@@ -300,7 +300,7 @@ namespace QuickDevTest
             {
                 if (!int.TryParse(part, out int value) || value < 0 || value > 255)
                     return false;
-                
+
                 // No leading zeros allowed except for "0"
                 if (part.Length > 1 && part.StartsWith('0'))
                     return false;
@@ -357,12 +357,12 @@ namespace QuickDevTest
             {
                 if (string.IsNullOrEmpty(part) && !hasCompression)
                     return false;
-                
+
                 if (!string.IsNullOrEmpty(part))
                 {
                     if (part.Length > 4) // Each group is max 4 hex digits
                         return false;
-                    
+
                     if (!Regex.IsMatch(part, "^[0-9a-fA-F]+$"))
                         return false;
                 }
@@ -375,7 +375,7 @@ namespace QuickDevTest
         {
             // Valid characters for unquoted local part
             // Allow letters (including international), digits, and specific special characters
-            return char.IsLetterOrDigit(c) || 
+            return char.IsLetterOrDigit(c) ||
                    "!#$%&'*+-/=?^_`{|}~.".Contains(c);
         }
 
