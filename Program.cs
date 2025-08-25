@@ -339,9 +339,6 @@ TestEmail("user@domain.a", false);                     // Single letter TLD
 Console.WriteLine("\n  Excessive Domain Labels:");
 TestEmail("user@" + string.Join(".", Enumerable.Repeat("a", 130)) + ".com", false); // Too many labels
 
-Console.WriteLine("\nPress any key to exit...");
-Console.ReadKey();
-
 // Display final test results
 Console.WriteLine($"\n=== TEST RESULTS SUMMARY ===");
 if (failedTests == 0)
